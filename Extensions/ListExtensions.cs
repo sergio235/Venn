@@ -6,20 +6,30 @@ namespace Venn.Extensions
 {
     public static class ListExtensions
     {
-        public static IList<T> Replace<T>(this IList<T> aList, IList<T> bList, Func<T,T,bool> comparer)
+        public static IList<T> Replace<T>(this IList<T> replaceableCollection, IList<T> newCollection, Func<T,T,bool> predicate)
         {
-            aList.ToList().ForEach(itemA =>
+            newCollection.ToList().ForEach(itemB =>
             {
-                bList.ToList().ForEach(itemB => 
-                {
-                    if(comparer(itemA, itemB))
-                    {
-                        aList[aList.IndexOf(itemA)] = itemB;
-                    }
-                });
+                Replace(replaceableCollection, itemB, predicate);
             });
 
-            return aList;
+            return replaceableCollection;
+        }
+
+        public static void Replace<T>(this IList<T> collection, T newItem, Func<T,T,bool> predicate)
+        {
+            collection.ToList().ForEach(oldItem =>
+            {
+                collection.ReplaceItem(oldItem, newItem, predicate);
+            });
+        }
+
+        public static void ReplaceItem<T>(this IList<T> collection, T oldItem, T newItem, Func<T,T,bool> predicate)
+        {
+            if (predicate(oldItem, newItem))
+            {
+                collection[collection.IndexOf(oldItem)] = newItem;
+            }
         }
     }
 
