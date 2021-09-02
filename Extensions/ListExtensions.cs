@@ -6,8 +6,12 @@ namespace Venn.Extensions
 {
     public static class ListExtensions
     {
+        #region methods Replace
         public static IList<T> Replace<T>(this IList<T> replaceableCollection, IList<T> newCollection, Func<T, T, bool> predicate)
         {
+            if (newCollection == null)
+                throw new ArgumentNullException(nameof(newCollection));
+
             newCollection.ToList().ForEach(newItem =>
             {
                 Replace(replaceableCollection, newItem, predicate);
@@ -18,6 +22,15 @@ namespace Venn.Extensions
 
         public static void Replace<T>(this IList<T> collection, T newItem, Func<T,T,bool> predicate)
         {
+            if (collection == null)
+                throw new ArgumentNullException(nameof(collection));
+
+            if (newItem == null)
+                throw new ArgumentNullException(nameof(newItem));
+
+            if (predicate == null)
+                throw new ArgumentNullException(nameof(predicate));
+
             collection.ToList().ForEach(oldItem =>
             {
                 collection.ReplaceItem(oldItem, newItem, predicate);
@@ -29,15 +42,30 @@ namespace Venn.Extensions
             bool result = false;
             if (predicate(oldItem, newItem))
             {
-                collection[collection.IndexOf(oldItem)] = newItem;
-                result = true;
+                try
+                {
+                    collection[collection.IndexOf(oldItem)] = newItem;
+                    result = true;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
             }
 
             return result;
         }
+        #endregion
 
+        #region methods Add
         public static IList<T> AddRange<T>(this IList<T> replaceableCollection, IList<T> newCollection, Func<T, T, bool> predicate = null)
         {
+            if (replaceableCollection == null)
+                throw new ArgumentNullException(nameof(replaceableCollection));
+
+            if (newCollection == null)
+                throw new ArgumentNullException(nameof(newCollection));
+
             newCollection.ToList().ForEach(newItem =>
             {
                 replaceableCollection.Add<T>(newItem, predicate);
@@ -84,6 +112,7 @@ namespace Venn.Extensions
                 collection.Add(newItem);
             }
         }
+        #endregion
 
         /// <summary>
         /// The replaceableCollection items are replaced by the newCollection items if they meet the replaceblePredict condition,
@@ -103,7 +132,7 @@ namespace Venn.Extensions
                 .ToList()
                 .ForEach(newItem =>
             {
-                if (!replaceableCollection.Contains(newItem))
+                if(replaceableCollection.IndexOf(newItem) != -1)
                 {
                     replaceableCollection.Add(newItem);
                 }
