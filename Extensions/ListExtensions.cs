@@ -140,6 +140,25 @@ namespace Venn.Extensions
 
             return replaceableCollection;
         }
+
+        public static IList<T> Slice<T>(this IList<T> sourceCollection, int start = 0, int end = 1, int step = 1)
+        {
+            List<T> result = new List<T>();
+
+            for(int i = start; i < end; i += step)
+            {
+                if (i == start)
+                {
+                    result.Add(sourceCollection[start]);
+                }
+                else
+                {
+                    result.AddRange(sourceCollection.Skip(step + i).Take(1));
+                }
+            }
+
+            return result;
+        }
     }
 
 }
