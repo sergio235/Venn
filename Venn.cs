@@ -7,7 +7,7 @@ namespace Venn
 {
     public static class Venn
     {
-        public static IEnumerable<T> Union<T>(IEnumerable<T> collectionA, IEnumerable<T> collectionB, IEqualityComparer<T> comparer = null)
+        public static IEnumerable<T> Union<T>(this IEnumerable<T> collectionA, IEnumerable<T> collectionB, IEqualityComparer<T> comparer = null)
         {
             if (comparer == null)
             {
@@ -16,7 +16,7 @@ namespace Venn
             return collectionA.Union(collectionB, comparer);
         }
 
-        public static IEnumerable<T> Intersection<T>(IEnumerable<T> collectionA, IEnumerable<T> collectionB, IEqualityComparer<T> comparer = null)
+        public static IEnumerable<T> Intersect<T>(this IEnumerable<T> collectionA, IEnumerable<T> collectionB, IEqualityComparer<T> comparer = null)
         {
             if (comparer == null)
             {
@@ -25,7 +25,7 @@ namespace Venn
             return collectionA.Intersect(collectionB, comparer);
         }
 
-        public static IEnumerable<T> SymmetricExceptWith<T>(IEnumerable<T> collectionA, IEnumerable<T> collectionB, IEqualityComparer<T> comparer = null)
+        public static IEnumerable<T> SymmetricExceptWith<T>(this IEnumerable<T> collectionA, IEnumerable<T> collectionB, IEqualityComparer<T> comparer = null)
         {
             IEnumerable<T> union;
             IEnumerable<T> intersection;
@@ -33,11 +33,14 @@ namespace Venn
             {
                 union = collectionA.Union(collectionB);
                 intersection = collectionA.Intersect(collectionB);
-
-
-
             }
-            return collectionA.Intersect(collectionB, comparer);
+            else
+            {
+                union = collectionA.Union(collectionB, comparer);
+                intersection = collectionA.Intersect(collectionB, comparer);
+            }
+
+            return union.Except(intersection);
         }
     }
 }
