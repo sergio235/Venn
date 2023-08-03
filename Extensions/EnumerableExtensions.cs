@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
+using System.Text;
+using Venn.Comparers;
 
-namespace Venn
+namespace Venn.Extensions
 {
-    public static class Venn
+    public static class EnumerableExtensions
     {
-        public static IEnumerable<T> Union<T>(this IEnumerable<T> collectionA, IEnumerable<T> collectionB, IEqualityComparer<T> comparer = null)
+        public static IEnumerable<T> Union<T>(this IEnumerable<T> collectionA, IEnumerable<T> collectionB, VennComparer<T> comparer = null)
         {
             if (comparer == null)
             {
@@ -16,7 +17,7 @@ namespace Venn
             return collectionA.Union(collectionB, comparer);
         }
 
-        public static IEnumerable<T> Intersect<T>(this IEnumerable<T> collectionA, IEnumerable<T> collectionB, IEqualityComparer<T> comparer = null)
+        public static IEnumerable<T> Intersect<T>(this IEnumerable<T> collectionA, IEnumerable<T> collectionB, VennComparer<T> comparer = null)
         {
             if (comparer == null)
             {
@@ -25,11 +26,11 @@ namespace Venn
             return collectionA.Intersect(collectionB, comparer);
         }
 
-        public static IEnumerable<T> SymmetricExceptWith<T>(this IEnumerable<T> collectionA, IEnumerable<T> collectionB, IEqualityComparer<T> comparer = null)
+        public static IEnumerable<T> SymmetricExceptWith<T>(this IEnumerable<T> collectionA, IEnumerable<T> collectionB, VennComparer<T> comparer = null)
         {
             IEnumerable<T> union;
             IEnumerable<T> intersection;
-            if(comparer == null)
+            if (comparer == null)
             {
                 union = collectionA.Union(collectionB);
                 intersection = collectionA.Intersect(collectionB);

@@ -5,10 +5,6 @@ VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Venn", "Venn.csproj", "{3E915F0F-521E-40D5-A441-9BD243A304C4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VennTest", "..\VennTest\VennTest.csproj", "{3CD8581B-0F95-4D13-B30A-584E298B1367}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VennUnitTest", "..\VennUnitTest\VennUnitTest.csproj", "{29DC8A5F-E1AA-4CCB-BF6D-8615F9EC3A04}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,10 +15,6 @@ Global
 		{3E915F0F-521E-40D5-A441-9BD243A304C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E915F0F-521E-40D5-A441-9BD243A304C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E915F0F-521E-40D5-A441-9BD243A304C4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3CD8581B-0F95-4D13-B30A-584E298B1367}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3CD8581B-0F95-4D13-B30A-584E298B1367}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{29DC8A5F-E1AA-4CCB-BF6D-8615F9EC3A04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{29DC8A5F-E1AA-4CCB-BF6D-8615F9EC3A04}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
