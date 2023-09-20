@@ -7,6 +7,10 @@
     <Title>Venn</Title>
     <Description>IList extension methods</Description>
     <PackageProjectUrl>https://github.com/sergio235/Venn</PackageProjectUrl>
+    <PackageId>$(AssemblyName)</PackageId>
+    <SignAssembly>False</SignAssembly>
+    <Version>1.1.0</Version>
+    <Authors>sergio.sanchez</Authors>
   </PropertyGroup>
 
 </Project>

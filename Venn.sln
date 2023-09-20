@@ -5,6 +5,8 @@ VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Venn", "Venn.csproj", "{3E915F0F-521E-40D5-A441-9BD243A304C4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Venn.Controls", "..\Venn.Controls\Venn.Controls.csproj", "{42F8730A-8F40-487E-A190-A7BA578B61DE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{3E915F0F-521E-40D5-A441-9BD243A304C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E915F0F-521E-40D5-A441-9BD243A304C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E915F0F-521E-40D5-A441-9BD243A304C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42F8730A-8F40-487E-A190-A7BA578B61DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42F8730A-8F40-487E-A190-A7BA578B61DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42F8730A-8F40-487E-A190-A7BA578B61DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42F8730A-8F40-487E-A190-A7BA578B61DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
