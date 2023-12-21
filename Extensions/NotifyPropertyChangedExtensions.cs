@@ -5,7 +5,7 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using Venn.PropertyChanges;
 
-public static class PropertyObserverExtensions
+public static class NotifyPropertyChangedExtensions
 {
     public static IObservable<TProperty> WhenAny<T, TProperty>(
         this T source,
