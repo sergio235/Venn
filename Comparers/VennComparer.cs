@@ -43,7 +43,10 @@ namespace Venn.Comparers
         /// <returns>A hash code for the specified object.</returns>
         public int GetHashCode(T obj)
         {
-            return obj.ToString().ToLower().GetHashCode();
+            if (obj == null)
+                return 0;
+
+            return obj.ToString().GetHashCode();
         }
     }
 }
