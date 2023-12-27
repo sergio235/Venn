@@ -5,14 +5,15 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Title>Venn</Title>
-    <Description>IList extension methods</Description>
+    <Description></Description>
     <PackageProjectUrl>https://github.com/sergio235/Venn</PackageProjectUrl>
     <PackageId>$(AssemblyName)</PackageId>
     <SignAssembly>False</SignAssembly>
-    <Version>1.1.0</Version>
+    <Version>1.2.0</Version>
     <Authors>sergio.sanchez</Authors>
     <UseWPF>True</UseWPF>
     <ImplicitUsings>enable</ImplicitUsings>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,6 +21,13 @@
     <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
     <PackageReference Include="System.ComponentModel" Version="4.3.0" />
     <PackageReference Include="System.Reactive" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
