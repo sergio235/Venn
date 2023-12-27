@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Venn.Comparers;
+﻿using Venn.Comparers;
 
 namespace Venn.Extensions
 {

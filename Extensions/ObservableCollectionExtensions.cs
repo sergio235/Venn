@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq.Expressions;
-using System.Text;
 
 namespace Venn.Extensions
 {
@@ -53,7 +50,7 @@ namespace Venn.Extensions
         {
             foreach (var propertySelector in propertySelectors)
             {
-                var propertyName = GetPropertyName(propertySelector);
+                var propertyName = propertySelector.GetPropertyName();
                 item.PropertyChanged += (s, args) =>
                 {
                     if (args.PropertyName == propertyName)
@@ -68,7 +65,7 @@ namespace Venn.Extensions
         {
             foreach (var propertySelector in propertySelectors)
             {
-                var propertyName = GetPropertyName(propertySelector);
+                var propertyName = propertySelector.GetPropertyName();
                 item.PropertyChanged -= (s, args) =>
                 {
                     if (args.PropertyName == propertyName)
@@ -77,15 +74,6 @@ namespace Venn.Extensions
                     }
                 };
             }
-        }
-
-        private static string GetPropertyName<T>(Expression<Func<T, object>> propertySelector)
-        {
-            if (propertySelector.Body is MemberExpression memberExpression)
-            {
-                return memberExpression.Member.Name;
-            }
-            throw new ArgumentException("Invalid property expression");
         }
     }
 }

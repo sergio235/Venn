@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Venn.Comparers;
+﻿using Venn.Comparers;
 
 namespace Venn.Extensions
 {
@@ -72,7 +69,7 @@ namespace Venn.Extensions
         }
 
         [Obsolete]
-        public static void Replace<T>(this IList<T> collection, T newItem, Func<T,T,bool> predicate)
+        public static void Replace<T>(this IList<T> collection, T newItem, Func<T, T, bool> predicate)
         {
             if (collection == null)
                 throw new ArgumentNullException(nameof(collection));
@@ -90,7 +87,7 @@ namespace Venn.Extensions
         }
 
         [Obsolete]
-        private static bool ReplaceItem<T>(this IList<T> collection, T oldItem, T newItem, Func<T,T,bool> predicate)
+        private static bool ReplaceItem<T>(this IList<T> collection, T oldItem, T newItem, Func<T, T, bool> predicate)
         {
             bool result = false;
             if (predicate(oldItem, newItem))
@@ -129,7 +126,7 @@ namespace Venn.Extensions
 
         public static void Add<T>(this IList<T> collection, T newItem, VennComparer<T> comparer)
         {
-            if(!collection.Any())
+            if (!collection.Any())
             {
                 collection.Add(newItem);
                 return;
@@ -228,7 +225,7 @@ namespace Venn.Extensions
                 .ToList()
                 .ForEach(newItem =>
             {
-                if(replaceableCollection.IndexOf(newItem) != -1)
+                if (replaceableCollection.IndexOf(newItem) != -1)
                 {
                     replaceableCollection.Add(newItem);
                 }
@@ -268,7 +265,7 @@ namespace Venn.Extensions
         #region Slice
         public static IList<T> Slice<T>(this IList<T> collection, int start = 0, int end = 1, int step = 1, int taken = 1)
         {
-            if(collection == null)
+            if (collection == null)
                 throw new ArgumentNullException(nameof(collection));
 
             List<T> result = new List<T>();

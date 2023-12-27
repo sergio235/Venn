@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-
-namespace Venn.Comparers
+﻿namespace Venn.Comparers
 {
     /// <summary>
     /// Custom comparer class implementing IEqualityComparer for Venn diagrams.
