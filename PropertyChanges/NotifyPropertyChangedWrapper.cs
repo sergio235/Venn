@@ -1,60 +1,44 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Reactive;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.Text;
 
 namespace Venn.PropertyChanges
 {
-    /// <summary>
-    /// Class that wraps an object not implementing INotifyPropertyChanged and notifies property changes.
-    /// </summary>
-    /// <typeparam name="T">Type of the object to wrap.</typeparam>
     public class NotifyPropertyChangedWrapper<T> : INotifyPropertyChanged
     {
-        private readonly T _wrappedObject;
-        private readonly BehaviorSubject<Unit> _propertyChangedSubject = new BehaviorSubject<Unit>(Unit.Default);
+        private T _value;
+        private readonly BehaviorSubject<T> _valueChanged;
 
-        /// <summary>
-        /// Initializes a new instance of the NotifyPropertyChangedWrapper class.
-        /// </summary>
-        /// <param name="wrappedObject">Object to wrap.</param>
-        public NotifyPropertyChangedWrapper(T wrappedObject)
+        public NotifyPropertyChangedWrapper(T initialValue)
         {
-            _wrappedObject = wrappedObject ?? throw new ArgumentNullException(nameof(wrappedObject));
+            _value = initialValue;
+            _valueChanged = new BehaviorSubject<T>(_value);
         }
 
-        /// <summary>
-        /// Gets an observable that emits events whenever a property of the wrapped object changes.
-        /// </summary>
-        public IObservable<Unit> PropertyChangedObservable => _propertyChangedSubject.AsObservable();
+        internal IObservable<T> MyPropertyChangedObservable => _valueChanged.AsObservable();
 
-        /// <summary>
-        /// Gets the wrapped object.
-        /// </summary>
-        public T WrappedObject => _wrappedObject;
+        public T Value
+        {
+            get => _value;
+            set
+            {
+                if (EqualityComparer<T>.Default.Equals(_value, value))
+                {
+                    return;
+                }
 
-        /// <summary>
-        /// Event that is triggered when a property of the wrapped object changes.
-        /// </summary>
+                _value = value;
+                OnPropertyChanged(nameof(Value));
+                _valueChanged.OnNext(_value);
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            _propertyChangedSubject.OnNext(Unit.Default);
-        }
-
-        /// <summary>
-        /// Static method to wrap an object and create an instance of NotifyPropertyChangedWrapper.
-        /// </summary>
-        /// <param name="obj">Object to wrap.</param>
-        /// <returns>Instance of NotifyPropertyChangedWrapper wrapping the provided object.</returns>
-        public static NotifyPropertyChangedWrapper<T> Wrap(T obj)
-        {
-            return new NotifyPropertyChangedWrapper<T>(obj);
         }
     }
 }

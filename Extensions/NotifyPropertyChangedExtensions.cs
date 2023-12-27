@@ -5,51 +5,68 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using Venn.PropertyChanges;
 
-public static class NotifyPropertyChangedExtensions
+namespace Venn.Extensions
 {
-    public static IObservable<TProperty> WhenAny<T, TProperty>(
-        this T source,
-        Expression<Func<T, TProperty>> propertySelector)
-        where T : INotifyPropertyChanged
+    public static class NotifyPropertyChangedExtensions
     {
-        if (source == null)
-            throw new ArgumentNullException(nameof(source));
-
-        if (propertySelector == null)
-            throw new ArgumentNullException(nameof(propertySelector));
-
-        var propertyName = GetPropertyName(propertySelector);
-
-        return Observable.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(
-            h => source.PropertyChanged += h,
-            h => source.PropertyChanged -= h)
-            .Where(e => e.EventArgs.PropertyName == propertyName)
-            .Select(_ => propertySelector.Compile()(source));
-    }
-
-    public static IObservable<TProperty> WhenAny<T, TProperty>(
-        this NotifyPropertyChangedWrapper<T> source,
-        Expression<Func<T, TProperty>> propertySelector)
-    {
-        if (source == null)
-            throw new ArgumentNullException(nameof(source));
-
-        if (propertySelector == null)
-            throw new ArgumentNullException(nameof(propertySelector));
-
-        var propertyName = GetPropertyName(propertySelector);
-
-        return source.PropertyChangedObservable
-            .Where(_ => source.WrappedObject != null)
-            .Select(_ => propertySelector.Compile()(source.WrappedObject));
-    }
-
-    private static string GetPropertyName<T, TProperty>(Expression<Func<T, TProperty>> propertySelector)
-    {
-        if (propertySelector.Body is MemberExpression memberExpression)
+        public static IObservable<TProperty> WhenAny<T, TProperty>(
+            this T source,
+            Expression<Func<T, TProperty>> propertySelector)
+            where T : INotifyPropertyChanged
         {
-            return memberExpression.Member.Name;
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+
+            if (propertySelector == null)
+                throw new ArgumentNullException(nameof(propertySelector));
+
+            var propertyName = GetPropertyName(propertySelector);
+
+            return Observable.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(
+                h => source.PropertyChanged += h,
+                h => source.PropertyChanged -= h)
+                .Where(e => e.EventArgs.PropertyName == propertyName)
+                .Select(_ => propertySelector.Compile()(source));
         }
-        throw new ArgumentException("Invalid property expression");
+
+        public static IObservable<TProperty> WhenAny<T, TProperty>(
+            this NotifyPropertyChangedWrapper<T> source,
+            Expression<Func<T, TProperty>> propertySelector)
+        {
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+
+            if (propertySelector == null)
+                throw new ArgumentNullException(nameof(propertySelector));
+
+            var propertyName = GetPropertyName(propertySelector);
+
+            return source.MyPropertyChangedObservable
+                .Where(_ => source.Value != null)
+                .Select(_ => propertySelector.Compile()(source.Value));
+        }
+
+        public static IObservable<T> WhenAny<T>(this NotifyPropertyChangedWrapper<T> source)
+        {
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+
+            //if (propertySelector == null)
+            //    throw new ArgumentNullException(nameof(propertySelector));
+
+            //var propertyName = GetPropertyName(propertySelector);
+
+            return source.MyPropertyChangedObservable
+                .Where(_ => source.Value != null);
+        }
+
+        private static string GetPropertyName<T, TProperty>(Expression<Func<T, TProperty>> propertySelector)
+        {
+            if (propertySelector.Body is MemberExpression memberExpression)
+            {
+                return memberExpression.Member.Name;
+            }
+            throw new ArgumentException("Invalid property expression");
+        }
     }
 }
