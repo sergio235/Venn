@@ -16,7 +16,7 @@ namespace Venn.PropertyChanges
             _valueChanged = new BehaviorSubject<T>(_value);
         }
 
-        internal IObservable<T> MyPropertyChangedObservable => _valueChanged.AsObservable();
+        internal IObservable<T> Observable => _valueChanged.AsObservable();
 
         public T Value
         {

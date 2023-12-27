@@ -31,7 +31,7 @@ namespace Venn.Extensions
 
         public static IObservable<TProperty> WhenAny<T, TProperty>(
             this NotifyPropertyChangedWrapper<T> source,
-            Expression<Func<T, TProperty>> propertySelector)
+            Expression<Func<T, TProperty>> propertySelector )
         {
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
@@ -41,7 +41,7 @@ namespace Venn.Extensions
 
             var propertyName = GetPropertyName(propertySelector);
 
-            return source.MyPropertyChangedObservable
+            return source.Observable
                 .Where(_ => source.Value != null)
                 .Select(_ => propertySelector.Compile()(source.Value));
         }
@@ -51,12 +51,7 @@ namespace Venn.Extensions
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
 
-            //if (propertySelector == null)
-            //    throw new ArgumentNullException(nameof(propertySelector));
-
-            //var propertyName = GetPropertyName(propertySelector);
-
-            return source.MyPropertyChangedObservable
+            return source.Observable
                 .Where(_ => source.Value != null);
         }
 
