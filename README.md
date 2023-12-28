@@ -32,10 +32,13 @@ The `NotifyPropertyChangedExtensions` class provides extension methods for enabl
      - An observable stream (`IObservable<TProperty>`) that emits events whenever the specified property changes.
    - **Usage Example:**
      ```csharp
+     var disposables = new CompositeDisposable();
+     
      var observable = myObject.WhenAny(obj => obj.MyProperty);
      observable.Subscribe(newValue => {
          // Handle property change
-     });
+     })
+     .DisposeWith(disposables); //add an `IDisposable` object to a `CompositeDisposable`
      ```
 
 2. **`WhenAny<T, TProperty>` Method for `NotifyPropertyChangedWrapper<T>`:**
@@ -46,11 +49,14 @@ The `NotifyPropertyChangedExtensions` class provides extension methods for enabl
      - An observable stream (`IObservable<TProperty>`) that emits events whenever the specified property changes.
    - **Usage Example:**
      ```csharp
+     var disposables = new CompositeDisposable();
+     
      var wrapper = NotifyPropertyChangedWrapper<T>.Wrap(myObject);
      var observable = wrapper.WhenAny(obj => obj.MyProperty);
      observable.Subscribe(newValue => {
          // Handle property change
-     });
+     })
+     .DisposeWith(disposables); //add an `IDisposable` object to a `CompositeDisposable`
      ```
 
 3. **`WhenAny<T>` Method for `NotifyPropertyChangedWrapper<T>` (No Property Selector):**
@@ -60,14 +66,54 @@ The `NotifyPropertyChangedExtensions` class provides extension methods for enabl
      - An observable stream (`IObservable<T>`) that emits events whenever any property changes.
    - **Usage Example:**
      ```csharp
+     var disposables = new CompositeDisposable();
+
      var wrapper = NotifyPropertyChangedWrapper<T>.Wrap(myObject);
      var observable = wrapper.WhenAny();
      observable.Subscribe(newValue => {
          // Handle any property change
-     });
+     })
+     .DisposeWith(disposables); //add an `IDisposable` object to a `CompositeDisposable`
+     ```
+## DisposeWith Method for Dispose Management
+
+Venn provides you with a `DisposeWith` extension method that simplifies the management of disposable resources. This method allows you to add an `IDisposable` object to a `CompositeDisposable`, facilitating the coordinated disposal of multiple objects.
+
+### Method Overview:
+
+1. **`DisposeWith` Method:**
+   - **Signature:**
+     ```csharp
+     public static IDisposable DisposeWith(this IDisposable disposable, CompositeDisposable compositeDisposable)
+     ```
+   - **Parameters:**
+     - `disposable` (type: `IDisposable`): The object to be added to the `compositeDisposable`.
+     - `compositeDisposable` (type: `CompositeDisposable`): The container of disposable objects.
+   - **Exceptions:**
+     - `ArgumentNullException`: Thrown if `disposable` or `compositeDisposable` is null.
+   - **Returns:**
+     - The original `IDisposable` object.
+   - **Usage Example:**
+     ```csharp
+     var disposableObject = //... create your IDisposable object
+     var compositeDisposable = new CompositeDisposable();
+
+     // Add the IDisposable object to the CompositeDisposable using DisposeWith
+     disposableObject.DisposeWith(compositeDisposable);
+
+     // Dispose of all IDisposable objects in the CompositeDisposable when needed
+     compositeDisposable.Dispose();
      ```
 
 ### Important Notes:
+- The `DisposeWith` method is particularly useful when you want to manage the disposal of multiple objects in a coordinated manner.
+- Ensure that the object and the `CompositeDisposable` are not null before using this method to prevent potential null reference exceptions.
+- Dispose of the `CompositeDisposable` when it's appropriate to release the resources held by the disposable objects.
+
+This extension method follows a similar pattern to the `WhenAny` methods, providing a clean and concise way to handle the disposal of disposable resources.
+
+
+## Important Notes:
 - These extension methods simplify the process of observing property changes using reactive programming and can be particularly useful in scenarios where real-time updates are required based on property modifications.
 - Ensure that the object or wrapper instance is not null before using these methods to prevent potential null reference exceptions.
 
