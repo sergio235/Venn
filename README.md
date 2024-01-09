@@ -1,6 +1,6 @@
 # Venn
 
-[![version](https://img.shields.io/badge/version-1.0.1-yellow.svg)](https://semver.org)
+<!-- [![version](https://img.shields.io/badge/version-1.0.1-yellow.svg)](https://semver.org) -->
 
 The Venn project is a set of tools for working with WPF applications. It was initially born as a collection of extension methods, but is evolving into something more complex.
 
