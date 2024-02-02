@@ -50,7 +50,8 @@ namespace Venn.Extensions
                 throw new ArgumentNullException(nameof(source));
 
             return source.Observable
-                .Where(_ => source.Value != null);
+                .Where(_ => source.Value != null)
+                .Select(_ => source.Value);
         }
     }
 }

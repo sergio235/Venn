@@ -15,10 +15,7 @@
         /// <exception cref="ArgumentNullException">Thrown when comparerExp is null.</exception>
         public VennComparer(Func<T, T, bool> comparerExp)
         {
-            if (comparerExp == null)
-                throw new ArgumentNullException(nameof(comparerExp));
-
-            _comparerExp = comparerExp;
+            _comparerExp = comparerExp ?? throw new ArgumentNullException(nameof(comparerExp));
         }
 
         /// <summary>
@@ -29,6 +26,9 @@
         /// <returns>True if the objects are equal according to the comparison expression; otherwise, false.</returns>
         public bool Equals(T x, T y)
         {
+            if (x == null || y == null)
+                return false;
+
             return _comparerExp(x, y);
         }
 
@@ -39,11 +39,7 @@
         /// <returns>A hash code for the specified object.</returns>
         public int GetHashCode(T obj)
         {
-            if (obj == null)
-                return 0;
-
-            return obj.ToString().GetHashCode();
+            return EqualityComparer<T>.Default.GetHashCode(obj);
         }
     }
 }
-

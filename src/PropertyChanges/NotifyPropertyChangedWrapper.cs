@@ -12,6 +12,8 @@ namespace Venn.PropertyChanges
     {
         private T _value;
         private readonly BehaviorSubject<T> _valueChanged;
+        private readonly object _lockObject = new object();  // Added for synchronization
+        private bool _notificationsPaused;
 
         /// <summary>
         /// Initializes a new instance of the NotifyPropertyChangedWrapper class.
@@ -41,9 +43,13 @@ namespace Venn.PropertyChanges
                     return;
                 }
 
-                _value = value;
-                OnPropertyChanged(nameof(Value));
-                _valueChanged.OnNext(_value);
+                // Use a lock to ensure thread-safe updates
+                lock (_lockObject)
+                {
+                    _value = value;
+                    OnPropertyChanged(nameof(Value));
+                    _valueChanged.OnNext(_value);
+                }
             }
         }
 
@@ -54,7 +60,35 @@ namespace Venn.PropertyChanges
 
         private void OnPropertyChanged(string propertyName)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            // Check if notifications are paused before invoking the event
+            if (!_notificationsPaused)
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        /// <summary>
+        /// Pauses notifications temporarily.
+        /// </summary>
+        public void Pause()
+        {
+            // Use a lock to ensure thread-safe modification
+            lock (_lockObject)
+            {
+                _notificationsPaused = true;
+            }
+        }
+
+        /// <summary>
+        /// Resumes notifications.
+        /// </summary>
+        public void Resume()
+        {
+            // Use a lock to ensure thread-safe modification
+            lock (_lockObject)
+            {
+                _notificationsPaused = false;
+            }
         }
     }
 }
