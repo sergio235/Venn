@@ -171,30 +171,6 @@ namespace Venn.Extensions
         /// <param name="replacePredicate">The condition that items must meet to be replaced in the replaceable collection.</param>
         /// <returns>The modified replaceable collection.</returns>
         [Obsolete("Use the Replace method with a comparer instead.")]
-        public static IList<T> ReplaceOrAdd<T>(this IList<T> replaceableCollection, IList<T> newCollection, Func<T, T, bool> replacePredicate)
-        {
-            replaceableCollection.Replace(newCollection, replacePredicate);
-
-            foreach (var newItem in newCollection)
-            {
-                if (replaceableCollection.IndexOf(newItem) != -1)
-                {
-                    replaceableCollection.Add(newItem);
-                }
-            }
-
-            return replaceableCollection;
-        }
-
-        /// <summary>
-        /// Replaces or adds items from the new collection to the target collection based on the provided comparer.
-        /// </summary>
-        /// <typeparam name="T">The type of elements in the collections.</typeparam>
-        /// <param name="replaceableCollection">The collection to be modified.</param>
-        /// <param name="newCollection">The collection containing new items.</param>
-        /// <param name="comparer">The comparer used to determine equality between items.</param>
-        /// <returns>The modified replaceable collection.</returns>
-        [Obsolete("Use the Replace method with a comparer instead.")]
         public static IList<T> ReplaceOrAdd<T>(this IList<T> replaceableCollection, IList<T> newCollection, VennComparer<T> comparer)
         {
             replaceableCollection.Replace(newCollection, comparer);
@@ -224,7 +200,7 @@ namespace Venn.Extensions
         /// <param name="step">The step size for slicing.</param>
         /// <param name="taken">The number of elements to take during each step.</param>
         /// <returns>A sliced collection.</returns>
-        public static IList<T> Slice<T>(this IList<T> collection, int start = 0, int end = 1, int step = 1, int taken = 1)
+        public static IEnumerable<T> Slice<T>(this IList<T> collection, int start = 0, int end = 1, int step = 1, int taken = 1)
         {
             if (collection == null)
                 throw new ArgumentNullException(nameof(collection));
@@ -233,7 +209,7 @@ namespace Venn.Extensions
 
             for (int i = start; i < end; i += step)
             {
-                yield return collection.Skip(i).Take(taken);
+                yield return (T)collection.Skip(i).Take(taken);
             }
         }
 
@@ -245,7 +221,7 @@ namespace Venn.Extensions
         /// <param name="start">The starting index for slicing.</param>
         /// <param name="end">The ending index for slicing.</param>
         /// <returns>A sliced collection.</returns>
-        public static IList<T> Slice<T>(this IList<T> collection, int start = 0, int end = 1)
+        public static IEnumerable<T> Slice<T>(this IList<T> collection, int start = 0, int end = 1)
         {
             return Slice<T>(collection, start, end, 1, 1);
         }
@@ -257,7 +233,7 @@ namespace Venn.Extensions
         /// <param name="collection">The collection to be sliced.</param>
         /// <param name="start">The starting index for slicing.</param>
         /// <returns>A sliced collection.</returns>
-        public static IList<T> Slice<T>(this IList<T> collection, int start = 0)
+        public static IEnumerable<T> Slice<T>(this IList<T> collection, int start = 0)
         {
             return Slice<T>(collection, start, collection.Count);
         }
