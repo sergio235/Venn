@@ -11,6 +11,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Venn.Tests", "Venn.Tests", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Venn.Tests", "Venn.Tests\Venn.Tests.csproj", "{8AF32A47-3D47-4869-840C-6ACD5166D7B1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VennMauiApp", "VennMauiApp", "{87622A2D-2D19-4B5E-AA5D-D7A1102F0B96}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VennMauiApp", "..\VennMauiApp\VennMauiApp.csproj", "{B39AB9A1-81A0-4D17-B716-35D38252D4C0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +29,12 @@ Global
 		{8AF32A47-3D47-4869-840C-6ACD5166D7B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8AF32A47-3D47-4869-840C-6ACD5166D7B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8AF32A47-3D47-4869-840C-6ACD5166D7B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B39AB9A1-81A0-4D17-B716-35D38252D4C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B39AB9A1-81A0-4D17-B716-35D38252D4C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B39AB9A1-81A0-4D17-B716-35D38252D4C0}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{B39AB9A1-81A0-4D17-B716-35D38252D4C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B39AB9A1-81A0-4D17-B716-35D38252D4C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B39AB9A1-81A0-4D17-B716-35D38252D4C0}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,6 +42,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{858D3852-9BFB-4CC0-8C9B-D9CEC11DC8CA} = {F8AE7906-2B7A-44E4-B029-1EE2B7B381A7}
 		{8AF32A47-3D47-4869-840C-6ACD5166D7B1} = {931CFFDB-F317-4536-ACA1-288766AA45F4}
+		{B39AB9A1-81A0-4D17-B716-35D38252D4C0} = {87622A2D-2D19-4B5E-AA5D-D7A1102F0B96}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FE7FDFC4-BCD0-4718-8597-5C07923AF293}
