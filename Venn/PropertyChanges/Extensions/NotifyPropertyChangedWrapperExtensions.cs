@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Venn.PropertyChanges
+namespace Venn.PropertyChanges.Extensions
 {
     public static class NotifyPropertyChangedWrapperExtensions
     {
