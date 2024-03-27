@@ -13,7 +13,6 @@
     <Authors>sergio.sanchez</Authors>
     <UseWPF>True</UseWPF>
     <ImplicitUsings>enable</ImplicitUsings>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
