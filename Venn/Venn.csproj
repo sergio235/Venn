@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Title>Venn</Title>
@@ -29,5 +29,11 @@
       <_Parameter1>Venn.Tests</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
+  <Target Name="Pack" AfterTargets="Build">
+    <!-- Aquí puedes agregar las acciones que deseas realizar durante el empaquetado -->
+    <Message Text="Empaquetando proyecto..." Importance="high" />
+    <!-- Ejemplo: Ejecutar un comando de empaquetado -->
+    <Exec Command="dotnet pack --configuration $(Configuration)" />
+  </Target>
 
 </Project>
