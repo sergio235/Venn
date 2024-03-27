@@ -3,40 +3,44 @@ using Microsoft.Maui.Controls;
 using System.Globalization;
 using System.Reflection;
 
-public static class ViewModelLocator
+namespace Venn.Mvvm
 {
-    public static readonly BindableProperty AutoWireViewModelProperty =
-        BindableProperty.CreateAttached("AutoWireViewModel", typeof(bool), typeof(ViewModelLocator), default(bool), propertyChanged: OnAutoWireViewModelChanged);
-
-    public static bool GetAutoWireViewModel(BindableObject bindable)
+    public static class ViewModelLocator
     {
-        return (bool)bindable.GetValue(AutoWireViewModelProperty);
-    }
+        public static readonly BindableProperty AutoWireViewModelProperty =
+            BindableProperty.CreateAttached("AutoWireViewModel", typeof(bool), typeof(ViewModelLocator), default(bool), propertyChanged: OnAutoWireViewModelChanged);
 
-    public static void SetAutoWireViewModel(BindableObject bindable, bool value)
-    {
-        bindable.SetValue(AutoWireViewModelProperty, value);
-    }
-
-    private static void OnAutoWireViewModelChanged(BindableObject bindable, object oldValue, object newValue)
-    {
-        if (!(bindable is Element view))
+        public static bool GetAutoWireViewModel(BindableObject bindable)
         {
-            return;
+            return (bool)bindable.GetValue(AutoWireViewModelProperty);
         }
 
-        var viewType = view.GetType();
-        var viewName = viewType.FullName.Replace(".Views.", ".ViewModels.");
-        var viewAssemblyName = viewType.GetTypeInfo().Assembly.FullName;
-        var viewModelName = string.Format(CultureInfo.InvariantCulture, "{0}ViewModel, {1}", viewName, viewAssemblyName);
-
-        var viewModelType = Type.GetType(viewModelName);
-        if (viewModelType == null)
+        public static void SetAutoWireViewModel(BindableObject bindable, bool value)
         {
-            return;
+            bindable.SetValue(AutoWireViewModelProperty, value);
         }
 
-        var viewModel = Activator.CreateInstance(viewModelType);
-        view.BindingContext = viewModel;
+        private static void OnAutoWireViewModelChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            if (!(bindable is Element view))
+            {
+                return;
+            }
+
+            var viewType = view.GetType();
+            var viewName = viewType.FullName.Replace(".Views.", ".ViewModels.");
+            var viewAssemblyName = viewType.GetTypeInfo().Assembly.FullName;
+            var viewModelName = string.Format(CultureInfo.InvariantCulture, "{0}ViewModel, {1}", viewName, viewAssemblyName);
+
+            var viewModelType = Type.GetType(viewModelName);
+            if (viewModelType == null)
+            {
+                return;
+            }
+
+            var viewModel = Activator.CreateInstance(viewModelType);
+            view.BindingContext = viewModel;
+        }
     }
+
 }
