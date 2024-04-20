@@ -3,7 +3,7 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using Venn.Base.Interfaces;
 
-namespace Venn.PropertyChanges
+namespace Venn.Base.Bindables
 {
     /// <summary>
     /// Wraps an object that does not implement INotifyPropertyChanged and notifies about property changes.

@@ -10,5 +10,9 @@ namespace Venn.Base.Interfaces
     public interface ISuspendableNotifyPropertyChanged : INotifyPropertyChanged
     {
         bool IsSuspended { get; set; }
+
+        void Pause();
+
+        void Resume();
     }
 }

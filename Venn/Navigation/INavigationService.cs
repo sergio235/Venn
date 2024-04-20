@@ -1,14 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Venn.Base;
+using Microsoft.Maui.Controls;
 
 namespace Venn.Navigation
 {
     public interface INavigationService
     {
-        void NavigateTo<TViewModel>() where TViewModel : BaseViewModel;
+        void RegisterViewModelMapping(Type viewType, Type viewModelType);
+
+        Task NavigateToAsync<TView>() where TView : Page;
+
+        Task NavigateToAsync<TView>(object parameter) where TView : Page;
+
+        Task NavigateBackAsync();
     }
 }

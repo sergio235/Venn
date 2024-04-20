@@ -1,56 +1,66 @@
-﻿using System;
+﻿using Microsoft.Maui.Controls;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Venn.Base;
+using Venn.Base.ViewModels;
 
 namespace Venn.Navigation
 {
     public class NavigationService : INavigationService
     {
-        private Dictionary<Type, Type> registrations;
+        private readonly NavigationPage _navigationPage;
+        private readonly Dictionary<Type, Type> _viewModelMapping = new Dictionary<Type, Type>();
 
-        public NavigationService(IServiceProvider serviceProvider)
+        public NavigationService(NavigationPage navigationPage)
         {
-            registrations = new Dictionary<Type, Type>();
+            _navigationPage = navigationPage;
+            HookBackButton();
         }
 
-        public void NavigateTo<TViewModel>() where TViewModel : BaseViewModel
+        public void RegisterViewModelMapping(Type viewType, Type viewModelType)
         {
-            var viewModelType = typeof(TViewModel);
-            var viewModelName = viewModelType.Name;
+            _viewModelMapping[viewType] = viewModelType;
+        }
 
-            var viewName = viewModelName.Replace("ViewModel", "Page");
-            var viewType = Type.GetType($"{viewModelType.Namespace}.Views.{viewName}");
+        public async Task NavigateToAsync<TView>() where TView : Page
+        {
+            var viewModelType = GetViewModelType(typeof(TView));
+            var viewModel = (BaseViewModel)Activator.CreateInstance(viewModelType);
+            var page = (Page)Activator.CreateInstance(typeof(TView));
+            page.BindingContext = viewModel;
+            await _navigationPage.PushAsync(page);
+        }
 
-            if (viewType == null)
+        public async Task NavigateToAsync<TView>(object parameter) where TView : Page
+        {
+            var viewModelType = GetViewModelType(typeof(TView));
+            var viewModel = (BaseViewModel)Activator.CreateInstance(viewModelType);
+            var page = (Page)Activator.CreateInstance(typeof(TView), parameter);
+            page.BindingContext = viewModel;
+            await _navigationPage.PushAsync(page);
+        }
+
+        public async Task NavigateBackAsync()
+        {
+            await _navigationPage.PopAsync();
+        }
+
+        private Type GetViewModelType(Type viewType)
+        {
+            if (!_viewModelMapping.TryGetValue(viewType, out Type viewModelType))
             {
-                throw new InvalidOperationException($"View for {viewModelName} not found.");
+                throw new ArgumentException($"ViewModel not registered for View '{viewType.FullName}'");
             }
 
-            var shellContent = new ShellContent
-            {
-                Content = (Page)Activator.CreateInstance(viewType)
-            };
-
-            Application.Current.MainPage = new Shell
-            {
-                CurrentItem = new ShellItem
-                {
-                    Items = { shellContent }
-                }
-            };
-
-            // Optional: You can register the ViewModel and View relationship using ViewModelLocator here.
-            // ViewModelLocator.Register(typeof(TViewModel), viewType);
+            return viewModelType;
         }
 
-        public void RegisterForNavigation<TView, TViewModel>(Type viewType, Type viewModelType) 
-            where TView : Page 
-            where TViewModel : BaseViewModel
+        private void HookBackButton()
         {
-
+            _navigationPage.Popped += async (sender, e) =>
+            {
+                // Puedes agregar lógica adicional aquí si es necesario
+            };
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Venn.Base.Bindables;
 
 namespace Venn.PropertyChanges.Extensions
 {

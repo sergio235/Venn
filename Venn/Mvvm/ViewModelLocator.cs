@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.Maui.Controls;
+﻿using Microsoft.Maui.Controls;
+using System;
 using System.Globalization;
 using System.Reflection;
 
@@ -27,20 +27,22 @@ namespace Venn.Mvvm
                 return;
             }
 
-            var viewType = view.GetType();
-            var viewName = viewType.FullName.Replace(".Views.", ".ViewModels.");
-            var viewAssemblyName = viewType.GetTypeInfo().Assembly.FullName;
-            var viewModelName = string.Format(CultureInfo.InvariantCulture, "{0}ViewModel, {1}", viewName, viewAssemblyName);
-
-            var viewModelType = Type.GetType(viewModelName);
-            if (viewModelType == null)
+            if ((bool)newValue)
             {
-                return;
-            }
+                var viewType = view.GetType();
+                var viewName = viewType.FullName.Replace(".Views.", ".ViewModels.");
+                var viewAssemblyName = viewType.GetTypeInfo().Assembly.FullName;
+                var viewModelName = string.Format(CultureInfo.InvariantCulture, "{0}ViewModel, {1}", viewName, viewAssemblyName);
 
-            var viewModel = Activator.CreateInstance(viewModelType);
-            view.BindingContext = viewModel;
+                var viewModelType = Type.GetType(viewModelName);
+                if (viewModelType == null)
+                {
+                    return;
+                }
+
+                var viewModel = Activator.CreateInstance(viewModelType);
+                view.BindingContext = viewModel;
+            }
         }
     }
-
 }
