@@ -7,7 +7,7 @@ using System.Windows.Input;
 using Venn.Utils;
 
 namespace Venn.Commands
-{ 
+{
     public class VennAsyncCommand<TResult> : VennAsyncCommandBase, INotifyPropertyChanged
     {
         private readonly Func<CancellationToken, Task<TResult>> _command;
@@ -87,15 +87,11 @@ namespace Venn.Commands
                 RaiseCanExecuteChanged();
             }
 
-            public event EventHandler CanExecuteChanged
-            {
-                add => CommandManager.RequerySuggested += value;
-                remove => CommandManager.RequerySuggested -= value;
-            }
+            public event EventHandler CanExecuteChanged;
 
             private void RaiseCanExecuteChanged()
             {
-                CommandManager.InvalidateRequerySuggested();
+                CanExecuteChanged?.Invoke(this, EventArgs.Empty);
             }
         }
     }

@@ -57,10 +57,10 @@ namespace Venn.Navigation
 
         private void HookBackButton()
         {
-            _navigationPage.Popped += async (sender, e) =>
-            {
-                // Puedes agregar lógica adicional aquí si es necesario
-            };
+            //_navigationPage.Popped += async (sender, e) =>
+            //{
+            //    // Puedes agregar lógica adicional aquí si es necesario
+            //};
         }
     }
 }
