@@ -9,7 +9,7 @@
     <PackageProjectUrl>https://github.com/sergio235/Venn</PackageProjectUrl>
     <PackageId>$(AssemblyName)</PackageId>
     <SignAssembly>False</SignAssembly>
-    <Version>1.3.0-beta</Version>
+    <Version>1.3.0</Version>
     <Authors>sergio.sanchez</Authors>
     <ImplicitUsings>enable</ImplicitUsings>
     <Platforms>AnyCPU;x64</Platforms>
